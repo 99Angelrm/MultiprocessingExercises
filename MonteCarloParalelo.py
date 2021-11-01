@@ -4,13 +4,10 @@ import sys
 import multiprocessing
 from multiprocessing import Array, Process
 
-np = multiprocessing.cpu_count()
-#print(f'You have {np} CPUs')
-
-n = int(sys.argv[1])
-parte = int(n/np)
-sumas = Array('i', [0] * np, lock = False)
-
+if len(sys.argv)>1:
+    d = int(sys.argv[1]) 
+else:
+    d = 0
 
 def sample(n,arr,i):
     circle_points = 0
@@ -27,8 +24,11 @@ def sample(n,arr,i):
     #return
     arr[i] = circle_points
 
-
-if __name__=='__main__':
+def mc_paralelo(n = d):
+    np = multiprocessing.cpu_count()
+    #n = int(sys.argv[1])
+    parte = int(n/np)
+    sumas = Array('i', [0] * np, lock = False)
 
     start=time.time()
     jobs=[]
@@ -45,5 +45,10 @@ if __name__=='__main__':
     pi = 4.0 * circle_points / n
     end = time.time()
 
+    return pi, round((end-start)*1000,2)
+
+
+if __name__=='__main__':
+    pi, dif = mc_paralelo()
     print("PI ESTIMATION: ", pi)
-    print("TIME: ", end-start)
+    print("TIME: ", dif, "ms")
