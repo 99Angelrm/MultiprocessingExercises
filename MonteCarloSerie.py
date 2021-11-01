@@ -30,4 +30,4 @@ def mc_serie(n = d):
 if __name__ == "__main__":
     pi, dif = mc_serie()
     print("PI ESTIMATION: ", pi)
-    print("TIME: ", dif)
+    print("TIME: ", dif, "ms")
